@@ -27,7 +27,7 @@ def no_timeout(func):
     wrapper.__signature__ = inspect.signature(func)
     return wrapper    
 
-def check_sc_limit_emission(zero_crossing_phase=-48.61939264802021,sc_factor=1.1):
+def check_sc_limit_emission(zero_crossing_phase=-48.61939264802021,sc_factor=1.1,radius_name='distgen__r_dist:truncation_radius:value'):
     def check_sc_limit_emission_decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -35,7 +35,7 @@ def check_sc_limit_emission(zero_crossing_phase=-48.61939264802021,sc_factor=1.1
             
             gun_amp = temp_beamline.settings['GunAmp']
             gun_phase = temp_beamline.settings['GunPhase']
-            rRMS = temp_beamline.settings['distgen__r_dist:truncation_radius:value']
+            rRMS = temp_beamline.settings[radius_name]
             Q_TOT = temp_beamline.settings['Qtotal']
             
             eF_sc = (Q_TOT/8.85e-12/np.pi/rRMS**2)*1e-6 #MV/m
